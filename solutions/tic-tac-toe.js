@@ -89,7 +89,6 @@ const Board = () => {
   }
 
   const determineWinner = (playerXSquares, playerOSquares) => {
-    
     function checkRows() {
       if (
       (playerXSquares.includes(0) && playerXSquares.includes(1) && playerXSquares.includes(2)) ||
@@ -106,7 +105,6 @@ const Board = () => {
       ) {
         return setWinner('Player O');
       }
-     
     }
 
     function checkColumns() {
@@ -127,13 +125,13 @@ const Board = () => {
       }
     }
 
-    function checkDiagnols() {
+    function checkDiagonals() {
       if (playerXSquares.includes(4)) {
         if ((playerXSquares.includes(0) && playerXSquares.includes(8)) || (playerXSquares.includes(2) && playerXSquares.includes(6))) {
           return setWinner('Player X');
         }
       }
-       if (playerOSquares.includes(4)) {
+      if (playerOSquares.includes(4)) {
         if ((playerOSquares.includes(0) && playerOSquares.includes(8)) || (playerOSquares.includes(2) && playerOSquares.includes(6))) {
           return setWinner('Player O');
         }
@@ -143,7 +141,7 @@ const Board = () => {
     if (winner === 'None') {
       checkRows();
       checkColumns();
-      checkDiagnols();
+      checkDiagonals();
     }
   }
 
@@ -166,19 +164,73 @@ const Board = () => {
       <button onClick={reset} style={buttonStyle}>Reset</button>
       <div style={boardStyle}>
         <div className="board-row" style={rowStyle}>
-          <Square disabled={playerXSquares.includes(0) || playerOSquares.includes(0) || winner !== 'None'} playerXSquares={playerXSquares} playerOSquares={playerOSquares} handleClick={handleClick} value={0} />
-          <Square disabled={playerXSquares.includes(1) || playerOSquares.includes(1) || winner !== 'None'} playerXSquares={playerXSquares} playerOSquares={playerOSquares} handleClick={handleClick} value={1} />
-          <Square disabled={playerXSquares.includes(2) || playerOSquares.includes(2) || winner !== 'None'} playerXSquares={playerXSquares} playerOSquares={playerOSquares} handleClick={handleClick} value={2} />
+          <Square 
+            disabled={playerXSquares.includes(0) || playerOSquares.includes(0) || winner !== 'None'} 
+            playerXSquares={playerXSquares} 
+            playerOSquares={playerOSquares} 
+            handleClick={handleClick} 
+            value={0} 
+          />
+          <Square 
+            disabled={playerXSquares.includes(1) || playerOSquares.includes(1) || winner !== 'None'} 
+            playerXSquares={playerXSquares} 
+            playerOSquares={playerOSquares} 
+            handleClick={handleClick} 
+            value={1} 
+          />
+          <Square 
+            disabled={playerXSquares.includes(2) || playerOSquares.includes(2) || winner !== 'None'} 
+            playerXSquares={playerXSquares} 
+            playerOSquares={playerOSquares} 
+            handleClick={handleClick} 
+            value={2} 
+          />
         </div>
         <div className="board-row" style={rowStyle}>
-          <Square disabled={playerXSquares.includes(2) || playerOSquares.includes(3) || winner !== 'None'} playerXSquares={playerXSquares} playerOSquares={playerOSquares} handleClick={handleClick} value={3} />
-          <Square disabled={playerXSquares.includes(2) || playerOSquares.includes(4) || winner !== 'None'} playerXSquares={playerXSquares} playerOSquares={playerOSquares} handleClick={handleClick} value={4} />
-          <Square disabled={playerXSquares.includes(2) || playerOSquares.includes(5) || winner !== 'None'} playerXSquares={playerXSquares} playerOSquares={playerOSquares} handleClick={handleClick} value={5} />
+          <Square 
+            disabled={playerXSquares.includes(2) || playerOSquares.includes(3) || winner !== 'None'} 
+            playerXSquares={playerXSquares} 
+            playerOSquares={playerOSquares} 
+            handleClick={handleClick} 
+            value={3} 
+          />
+          <Square 
+            disabled={playerXSquares.includes(2) || playerOSquares.includes(4) || winner !== 'None'} 
+            playerXSquares={playerXSquares} 
+            playerOSquares={playerOSquares} 
+            handleClick={handleClick} 
+            value={4} 
+          />
+          <Square 
+            disabled={playerXSquares.includes(2) || playerOSquares.includes(5) || winner !== 'None'} 
+            playerXSquares={playerXSquares} 
+            playerOSquares={playerOSquares} 
+            handleClick={handleClick} 
+            value={5} 
+          />
         </div>
         <div className="board-row" style={rowStyle}>
-          <Square disabled={playerXSquares.includes(2) || playerOSquares.includes(6) || winner !== 'None'}playerXSquares={playerXSquares} playerOSquares={playerOSquares} handleClick={handleClick} value={6} />
-          <Square disabled={playerXSquares.includes(2) || playerOSquares.includes(7) || winner !== 'None'}playerXSquares={playerXSquares} playerOSquares={playerOSquares} handleClick={handleClick} value={7} />
-          <Square disabled={playerXSquares.includes(2) || playerOSquares.includes(8) || winner !== 'None'} playerXSquares={playerXSquares} playerOSquares={playerOSquares} handleClick={handleClick} value={8} />
+          <Square 
+            disabled={playerXSquares.includes(2) || playerOSquares.includes(6) || winner !== 'None'} 
+            playerXSquares={playerXSquares} 
+            playerOSquares={playerOSquares} 
+            handleClick={handleClick} 
+            value={6} 
+          />
+          <Square 
+            disabled={playerXSquares.includes(2) || playerOSquares.includes(7) || winner !== 'None'} 
+            playerXSquares={playerXSquares} 
+            playerOSquares={playerOSquares} 
+            handleClick={handleClick} 
+            value={7} 
+          />
+          <Square 
+            disabled={playerXSquares.includes(2) || playerOSquares.includes(8) || winner !== 'None'} 
+            playerXSquares={playerXSquares} 
+            playerOSquares={playerOSquares} 
+            handleClick={handleClick} 
+            value={8} 
+          />
         </div>
       </div>
     </div>
