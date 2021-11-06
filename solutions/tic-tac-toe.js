@@ -158,12 +158,37 @@ const Board = () => {
   }, [playerXSquares, playerOSquares]);
 
   return (
-    <div style={containerStyle} className="gameBoard">
-      <div id="statusArea" className="status" style={instructionsStyle}>Next player: <span>{currentPlayer === 'Player X' ? 'Player O' : 'Player X'}</span></div>
-      <div id="winnerArea" className="winner" style={instructionsStyle}>Winner: <span>{winner}</span></div>
-      <button onClick={reset} style={buttonStyle}>Reset</button>
-      <div style={boardStyle}>
-        <div className="board-row" style={rowStyle}>
+    <div 
+      style={containerStyle} 
+      className="gameBoard"
+    >
+      <div 
+        id="statusArea" 
+        className="status" 
+        style={instructionsStyle}
+      >
+        Next player: <span>{currentPlayer === 'Player X' ? 'Player O' : 'Player X'}</span>
+      </div>
+      <div 
+        id="winnerArea" 
+        className="winner" 
+        style={instructionsStyle}
+      >
+        Winner: <span>{winner}</span>
+      </div>
+      <button 
+        onClick={reset} 
+        style={buttonStyle}
+      >
+        Reset
+      </button>
+      <div 
+        style={boardStyle}
+      >
+        <div 
+          className="board-row" 
+          style={rowStyle}
+        >
           <Square 
             disabled={playerXSquares.includes(0) || playerOSquares.includes(0) || winner !== 'None'} 
             playerXSquares={playerXSquares} 
@@ -186,7 +211,10 @@ const Board = () => {
             value={2} 
           />
         </div>
-        <div className="board-row" style={rowStyle}>
+        <div 
+          className="board-row" 
+          style={rowStyle}
+        >
           <Square 
             disabled={playerXSquares.includes(2) || playerOSquares.includes(3) || winner !== 'None'} 
             playerXSquares={playerXSquares} 
@@ -209,7 +237,10 @@ const Board = () => {
             value={5} 
           />
         </div>
-        <div className="board-row" style={rowStyle}>
+        <div 
+          className="board-row" 
+          style={rowStyle}
+        >
           <Square 
             disabled={playerXSquares.includes(2) || playerOSquares.includes(6) || winner !== 'None'} 
             playerXSquares={playerXSquares} 
@@ -239,8 +270,12 @@ const Board = () => {
 
 const Game = () => {
   return (
-    <div className="game">
-      <div className="game-board">
+    <div 
+      className="game"
+    >
+      <div 
+        className="game-board"
+      >
         <Board />
       </div>
     </div>
