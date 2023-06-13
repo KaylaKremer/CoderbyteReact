@@ -29,7 +29,7 @@ function MainSection() {
     }
     return (
         <div>
-            <p id="favoriteLanguage">{`Favorite programing language: ${language}`}</p>
+            <p id="favoriteLanguage">{`Favorite programming language: ${language}`}</p>
             <button id="changeFavorite" onClick={toggleLanguage}>
                 Toggle language
             </button>
