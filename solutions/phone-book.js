@@ -52,6 +52,9 @@ function PhoneBookForm({ addEntryToPhoneBook }) {
 
     const [formState, dispatch] = useReducer(formReducer, initialFormState)
 
+    const onChange = ({ target: { name, value } }) =>
+        dispatch({ type: name, payload: value })
+
     return (
         <form
             onSubmit={e => {
@@ -68,9 +71,7 @@ function PhoneBookForm({ addEntryToPhoneBook }) {
                 className="userFirstname"
                 name="userFirstname"
                 type="text"
-                onChange={({ target: { name, value } }) =>
-                    dispatch({ type: name, payload: value })
-                }
+                onChange={onChange}
                 value={formState.userFirstname}
             />
             <br />
@@ -81,9 +82,7 @@ function PhoneBookForm({ addEntryToPhoneBook }) {
                 className="userLastname"
                 name="userLastname"
                 type="text"
-                onChange={({ target: { name, value } }) =>
-                    dispatch({ type: name, payload: value })
-                }
+                onChange={onChange}
                 value={formState.userLastname}
             />
             <br />
@@ -94,9 +93,7 @@ function PhoneBookForm({ addEntryToPhoneBook }) {
                 className="userPhone"
                 name="userPhone"
                 type="text"
-                onChange={({ target: { name, value } }) =>
-                    dispatch({ type: name, payload: value })
-                }
+                onChange={onChange}
                 value={formState.userPhone}
             />
             <br />
