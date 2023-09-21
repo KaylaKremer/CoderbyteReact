@@ -1,8 +1,6 @@
-![coderbyte](https://user-images.githubusercontent.com/22095244/211191145-4aa983e0-3efa-440d-accd-df48853f572d.png)
-
 # Coderbyte React Challenges
 
--   This repo contains my solutions for the React Interview Kit challenges.
+-   This repo contains my solutions for the [React Interview Kit](https://coderbyte.com/interview-kit/react) challenges.
 
 -   All solutions received a 10/10 score.
 
@@ -15,3 +13,6 @@ I added the missing solutions to the newer challenges Coderbyte made for React/R
 ### Update 6/13/23
 
 Refactored a few solutions!
+
+### Update 9/21/23
+Slight editing of README.
