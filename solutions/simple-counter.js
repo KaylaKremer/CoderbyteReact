@@ -1,30 +1,25 @@
-import React, { useState } from 'react';
-import ReactDOM from 'react-dom';
+import React, { useState } from "react"
+import { createRoot } from "react-dom/client"
 
 const Counter = () => {
-  const [count, setCount] = useState(0);
+    const [count, setCount] = useState(0)
 
-  increment = () => {
-    setCount(prevCount => prevCount + 1);
-  };
+    const increment = () => {
+        setCount(prevCount => prevCount + 1)
+    }
 
-  return (
-    <div id="mainArea">
-      <p>
-        Button Count: 
-        <span>{count}</span>
-      </p>
-      <button 
-        onClick={increment} 
-        id="mainButton"
-      >
-        Increase
-      </button>
-    </div>
-  );
-};
+    return (
+        <div id="mainArea">
+            <p>
+                {`Button Count: `}
+                <span>{count}</span>
+            </p>
+            <button onClick={increment} id="mainButton">
+                Increase
+            </button>
+        </div>
+    )
+}
 
-ReactDOM.render(
-  <Counter />,
-  document.getElementById('root')
-);
+const root = createRoot(document.getElementById("root"))
+root.render(<Counter />)
