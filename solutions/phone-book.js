@@ -1,5 +1,5 @@
-import React, { useState, useReducer } from "react"
-import ReactDOM from "react-dom"
+import React, { useState, useReducer, useCallback } from "react"
+import { createRoot } from "react-dom/client"
 
 const style = {
     table: {
@@ -34,7 +34,7 @@ const style = {
     },
 }
 
-function PhoneBookForm({ addEntryToPhoneBook }) {
+function PhoneBookForm({ entries, setEntries }) {
     const initialFormState = {
         userFirstname: "Coder",
         userLastname: "Byte",
@@ -54,6 +54,24 @@ function PhoneBookForm({ addEntryToPhoneBook }) {
 
     const onChange = ({ target: { name, value } }) =>
         dispatch({ type: name, payload: value })
+
+    const addEntryToPhoneBook = useCallback(() => {
+        const { userFirstname, userLastname, userPhone } = formState
+        const newEntries = [
+            ...entries,
+            { userFirstname, userLastname, userPhone },
+        ]
+        const newSortedEntries = newEntries.sort((a, b) => {
+            const userLastnameA = a.userLastname.toLowerCase()
+            const userLastnameB = b.userLastname.toLowerCase()
+            return userLastnameA < userLastnameB
+                ? -1
+                : userLastnameA > userLastnameB
+                ? 1
+                : 0
+        })
+        setEntries(newSortedEntries)
+    }, [formState])
 
     return (
         <form
@@ -132,34 +150,13 @@ function InformationTable({ entries }) {
 
 function Application() {
     const [entries, setEntries] = useState([])
-
-    const addEntryToPhoneBook = ({
-        userFirstname,
-        userLastname,
-        userPhone,
-    }) => {
-        const newEntries = [
-            ...entries,
-            { userFirstname, userLastname, userPhone },
-        ]
-        const newSortedEntries = newEntries.sort((a, b) => {
-            const userLastnameA = a.userLastname.toLowerCase()
-            const userLastnameB = b.userLastname.toLowerCase()
-            return userLastnameA < userLastnameB
-                ? -1
-                : userLastnameA > userLastnameB
-                ? 1
-                : 0
-        })
-        setEntries(newSortedEntries)
-    }
-
     return (
         <section>
-            <PhoneBookForm addEntryToPhoneBook={addEntryToPhoneBook} />
+            <PhoneBookForm entries={entries} setEntries={setEntries} />
             <InformationTable entries={entries} />
         </section>
     )
 }
 
-ReactDOM.render(<Application />, document.getElementById("root"))
+const root = createRoot(document.getElementById("root"))
+root.render(<Application />)
