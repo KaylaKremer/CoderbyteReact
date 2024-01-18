@@ -1,43 +1,33 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from "react"
+import { createRoot } from "react-dom/client"
 
 const data = [
-  { name: 'Daniel', age: 25 },
-  { name: 'John', age: 24 },
-  { name: 'Jen', age: 31 },
-];
+    { name: "Daniel", age: 25 },
+    { name: "John", age: 24 },
+    { name: "Jen", age: 31 },
+]
 
-const DataItem = ({ name, age}) => {
-  
-  return (
+const DataItem = ({ name, age }) => (
     <li>
-      <span>{name}{` `}</span>
-      <span>{age}</span>
+        <span>{`${name} `}</span>
+        <span>{age}</span>
     </li>
-  );
-};
+)
 
-const DataList = () => {
-
-  return (
+const DataList = ({ data }) => (
     <div>
-      <h2>Data List</h2>
-      <ul>
-        {data.map((dataItem, index) => {
-          return (
-            <DataItem 
-              name={dataItem.name} 
-              age={dataItem.age} 
-              key={`data-item-${index}`} 
-            />
-          );
-        })}
-      </ul>
+        <h2>Data List</h2>
+        <ul>
+            {data.map((dataItem, index) => (
+                <DataItem
+                    name={dataItem.name}
+                    age={dataItem.age}
+                    key={`data-item-${index}`}
+                />
+            ))}
+        </ul>
     </div>
-  );
-};
+)
 
-ReactDOM.render(
-  <DataList data={ data } />,
-  document.getElementById('root')
-);
+const root = createRoot(document.getElementById("root"))
+root.render(<DataList data={data} />)
