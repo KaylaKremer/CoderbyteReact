@@ -1,18 +1,15 @@
 import React, { useState, ReactNode } from "react"
-import ReactDOM from "react-dom"
+import { createRoot } from "react-dom/client"
 
-function Toggle(): ReactNode {
+const Toggle: ReactNode = () => {
     const [toggle, setToggle] = useState<boolean>(true)
 
-    function onClick(): void {
+    const onClick = (): void => {
         setToggle(!toggle)
     }
 
-    return (
-        <button type="button" onClick={onClick}>
-            {toggle ? "ON" : "OFF"}
-        </button>
-    )
+    return <button onClick={onClick}>{toggle ? "ON" : "OFF"}</button>
 }
 
-ReactDOM.render(<Toggle />, document.getElementById("root"))
+const root = createRoot(document.getElementById("root"))
+root.render(<Toggle />)
