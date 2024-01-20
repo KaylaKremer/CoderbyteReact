@@ -1,288 +1,202 @@
-import React, { useState, useEffect } from 'react';
-import ReactDOM from 'react-dom';
+import React, { useState } from "react"
+import { createRoot } from "react-dom/client"
 
 const rowStyle = {
-  display: 'flex'
+    display: "flex",
 }
 
 const squareStyle = {
-  'width':'60px',
-  'height':'60px',
-  'backgroundColor': '#ddd',
-  'margin': '4px',
-  'display': 'flex',
-  'justifyContent': 'center',
-  'alignItems': 'center',
-  'fontSize': '20px',
-  'color': 'white',
-  'cursor': 'pointer',
+    width: "60px",
+    height: "60px",
+    backgroundColor: "#ddd",
+    margin: "4px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    fontSize: "20px",
+    color: "white",
+}
+
+const disabledSquareStyle = {
+    ...squareStyle,
+    cursor: "not-allowed",
 }
 
 const boardStyle = {
-  'backgroundColor': '#eee',
-  'width': '208px',
-  'alignItems': 'center',
-  'justifyContent': 'center',
-  'display': 'flex',
-  'flexDirection': 'column',
-  'border': '3px #eee solid'
+    backgroundColor: "#eee",
+    width: "208px",
+    alignItems: "center",
+    justifyContent: "center",
+    display: "flex",
+    flexDirection: "column",
+    border: "3px #eee solid",
 }
 
 const containerStyle = {
-  'display': 'flex',
-  'alignItems': 'center',
-  'flexDirection': 'column'
+    display: "flex",
+    alignItems: "center",
+    flexDirection: "column",
 }
 
 const instructionsStyle = {
-  'marginTop': '5px',
-  'marginBottom': '5px',
-  'fontWeight': 'bold',
-  'fontSize': '16px',
+    marginTop: "5px",
+    marginBottom: "5px",
+    fontWeight: "bold",
+    fontSize: "16px",
 }
 
 const buttonStyle = {
-  'marginTop': '15px',
-  'marginBottom': '16px',
-  'width': '80px',
-  'height': '40px',
-  'backgroundColor': '#8acaca',
-  'color': 'white',
-  'fontSize': '16px',
-  'cursor': 'pointer',
+    marginTop: "15px",
+    marginBottom: "16px",
+    width: "80px",
+    height: "40px",
+    backgroundColor: "#8acaca",
+    color: "white",
+    fontSize: "16px",
 }
 
-const Square = ({playerXSquares, playerOSquares, handleClick, value, disabled }) => {
-  return (
-    <div
-      className="square"
-      style={squareStyle}
-      disabled={disabled}
-      value={value}
-      onClick={() => {
-        if (!disabled) {
-          handleClick(value)
-        }
-      }}
-    >
-      <span className="square-text">
-        {playerXSquares.indexOf(value) > -1 ? 'X' : playerOSquares.indexOf(value) > -1 ? 'O' : ''}
-      </span>
-    </div>
-  );
-};
+const Square = ({ value, onClick, winner }) => {
+    return (
+        <button
+            className="square"
+            onClick={() => onClick(value)}
+            style={
+                value !== null || winner !== "None"
+                    ? disabledSquareStyle
+                    : squareStyle
+            }
+            disabled={value !== null || winner !== "None"}
+        >
+            {value}
+        </button>
+    )
+}
 
 const Board = () => {
-  const [currentPlayer, setCurrentPlayer] = useState('player X');
-  const [winner, setWinner] = useState('None')
-  const [playerXSquares, setPlayerXSquares] = useState([]);
-  const [playerOSquares, setPlayerOSquares] = useState([]);
+    const [player, setPlayer] = useState("X")
+    const [winner, setWinner] = useState("None")
+    const [board, setBoard] = useState(() => Array(9).fill(null))
 
-  const handleClick = value => {
-    if (currentPlayer === 'player X') {
-      setPlayerXSquares([...playerXSquares, value]);
-      setCurrentPlayer('player O');
-    } else {
-      setPlayerOSquares([...playerOSquares, value]);
-      setCurrentPlayer('player X');
-    }
-  }
+    const matches = [
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+        [0, 4, 8],
+        [2, 4, 6],
+    ]
 
-  const determineWinner = (playerXSquares, playerOSquares) => {
-    function checkRows() {
-      if (
-      (playerXSquares.includes(0) && playerXSquares.includes(1) && playerXSquares.includes(2)) ||
-      (playerXSquares.includes(3) && playerXSquares.includes(4) && playerXSquares.includes(5)) ||
-      (playerXSquares.includes(6) && playerXSquares.includes(7) && playerXSquares.includes(8))
-      ) {
-        return setWinner('Player X');
-      }
-
-      if (
-      (playerOSquares.includes(0) && playerOSquares.includes(1) && playerOSquares.includes(2)) ||
-      (playerOSquares.includes(3) && playerOSquares.includes(4) && playerOSquares.includes(5)) ||
-      (playerOSquares.includes(6) && playerOSquares.includes(7) && playerOSquares.includes(8))
-      ) {
-        return setWinner('Player O');
-      }
-    }
-
-    function checkColumns() {
-      if (
-      (playerXSquares.includes(0) && playerXSquares.includes(3) && playerXSquares.includes(6)) ||
-      (playerXSquares.includes(1) && playerXSquares.includes(4) && playerXSquares.includes(7)) ||
-      (playerXSquares.includes(2) && playerXSquares.includes(5) && playerXSquares.includes(8))
-      ) {
-        return setWinner('Player X');
-      }
-
-      if (
-      (playerOSquares.includes(0) && playerOSquares.includes(3) && playerOSquares.includes(6)) ||
-      (playerOSquares.includes(1) && playerOSquares.includes(4) && playerOSquares.includes(7)) ||
-      (playerOSquares.includes(2) && playerOSquares.includes(5) && playerOSquares.includes(8))
-      ) {
-        return setWinner('Player O');
-      }
-    }
-
-    function checkDiagonals() {
-      if (playerXSquares.includes(4)) {
-        if ((playerXSquares.includes(0) && playerXSquares.includes(8)) || (playerXSquares.includes(2) && playerXSquares.includes(6))) {
-          return setWinner('Player X');
+    const checkWinner = newBoard => {
+        for (let i = 0; i < matches.length; i++) {
+            const [a, b, c] = matches[i]
+            if (
+                newBoard[a] === player &&
+                newBoard[b] === player &&
+                newBoard[c] === player
+            ) {
+                return true
+            }
         }
-      }
-      if (playerOSquares.includes(4)) {
-        if ((playerOSquares.includes(0) && playerOSquares.includes(8)) || (playerOSquares.includes(2) && playerOSquares.includes(6))) {
-          return setWinner('Player O');
+        return false
+    }
+
+    const onClick = index => {
+        const newBoard = [...board]
+        newBoard[index] = player
+        setBoard(newBoard)
+
+        if (checkWinner(newBoard)) {
+            setWinner(player)
+        } else {
+            setPlayer(player === "X" ? "O" : "X")
         }
-      }
     }
 
-    if (winner === 'None') {
-      checkRows();
-      checkColumns();
-      checkDiagonals();
+    const onReset = () => {
+        setBoard(Array(9).fill(null))
+        setPlayer("X")
+        setWinner("None")
     }
-  }
 
-
-  const reset = () => {
-    setCurrentPlayer('Player X');
-    setPlayerXSquares([]);
-    setPlayerOSquares([]);
-    setWinner('None');
-  }
-
-  useEffect(() => {
-    determineWinner(playerXSquares, playerOSquares);
-  }, [playerXSquares, playerOSquares]);
-
-  return (
-    <div 
-      style={containerStyle} 
-      className="gameBoard"
-    >
-      <div 
-        id="statusArea" 
-        className="status" 
-        style={instructionsStyle}
-      >
-        Next player: <span>{currentPlayer === 'Player X' ? 'Player O' : 'Player X'}</span>
-      </div>
-      <div 
-        id="winnerArea" 
-        className="winner" 
-        style={instructionsStyle}
-      >
-        Winner: <span>{winner}</span>
-      </div>
-      <button 
-        onClick={reset} 
-        style={buttonStyle}
-      >
-        Reset
-      </button>
-      <div 
-        style={boardStyle}
-      >
-        <div 
-          className="board-row" 
-          style={rowStyle}
-        >
-          <Square 
-            disabled={playerXSquares.includes(0) || playerOSquares.includes(0) || winner !== 'None'} 
-            playerXSquares={playerXSquares} 
-            playerOSquares={playerOSquares} 
-            handleClick={handleClick} 
-            value={0} 
-          />
-          <Square 
-            disabled={playerXSquares.includes(1) || playerOSquares.includes(1) || winner !== 'None'} 
-            playerXSquares={playerXSquares} 
-            playerOSquares={playerOSquares} 
-            handleClick={handleClick} 
-            value={1} 
-          />
-          <Square 
-            disabled={playerXSquares.includes(2) || playerOSquares.includes(2) || winner !== 'None'} 
-            playerXSquares={playerXSquares} 
-            playerOSquares={playerOSquares} 
-            handleClick={handleClick} 
-            value={2} 
-          />
+    return (
+        <div style={containerStyle} className="gameBoard">
+            <div id="statusArea" className="status" style={instructionsStyle}>
+                Next player: <span>{player === "X" ? "O" : "X"}</span>
+            </div>
+            <div id="winnerArea" className="winner" style={instructionsStyle}>
+                Winner: <span>{winner !== "None" && winner}</span>
+            </div>
+            <button style={buttonStyle} onClick={onReset}>
+                Reset
+            </button>
+            <div style={boardStyle}>
+                <div className="board-row" style={rowStyle}>
+                    <Square
+                        value={board[0]}
+                        onClick={() => onClick(0)}
+                        winner={winner}
+                    />
+                    <Square
+                        value={board[1]}
+                        onClick={() => onClick(1)}
+                        winner={winner}
+                    />
+                    <Square
+                        value={board[2]}
+                        onClick={() => onClick(2)}
+                        winner={winner}
+                    />
+                </div>
+                <div className="board-row" style={rowStyle}>
+                    <Square
+                        value={board[3]}
+                        onClick={() => onClick(3)}
+                        winner={winner}
+                    />
+                    <Square
+                        value={board[4]}
+                        onClick={() => onClick(4)}
+                        winner={winner}
+                    />
+                    <Square
+                        value={board[5]}
+                        onClick={() => onClick(5)}
+                        winner={winner}
+                    />
+                </div>
+                <div className="board-row" style={rowStyle}>
+                    <Square
+                        value={board[6]}
+                        onClick={() => onClick(6)}
+                        winner={winner}
+                    />
+                    <Square
+                        value={board[7]}
+                        onClick={() => onClick(7)}
+                        winner={winner}
+                    />
+                    <Square
+                        value={board[8]}
+                        onClick={() => onClick(8)}
+                        winner={winner}
+                    />
+                </div>
+            </div>
         </div>
-        <div 
-          className="board-row" 
-          style={rowStyle}
-        >
-          <Square 
-            disabled={playerXSquares.includes(2) || playerOSquares.includes(3) || winner !== 'None'} 
-            playerXSquares={playerXSquares} 
-            playerOSquares={playerOSquares} 
-            handleClick={handleClick} 
-            value={3} 
-          />
-          <Square 
-            disabled={playerXSquares.includes(2) || playerOSquares.includes(4) || winner !== 'None'} 
-            playerXSquares={playerXSquares} 
-            playerOSquares={playerOSquares} 
-            handleClick={handleClick} 
-            value={4} 
-          />
-          <Square 
-            disabled={playerXSquares.includes(2) || playerOSquares.includes(5) || winner !== 'None'} 
-            playerXSquares={playerXSquares} 
-            playerOSquares={playerOSquares} 
-            handleClick={handleClick} 
-            value={5} 
-          />
-        </div>
-        <div 
-          className="board-row" 
-          style={rowStyle}
-        >
-          <Square 
-            disabled={playerXSquares.includes(2) || playerOSquares.includes(6) || winner !== 'None'} 
-            playerXSquares={playerXSquares} 
-            playerOSquares={playerOSquares} 
-            handleClick={handleClick} 
-            value={6} 
-          />
-          <Square 
-            disabled={playerXSquares.includes(2) || playerOSquares.includes(7) || winner !== 'None'} 
-            playerXSquares={playerXSquares} 
-            playerOSquares={playerOSquares} 
-            handleClick={handleClick} 
-            value={7} 
-          />
-          <Square 
-            disabled={playerXSquares.includes(2) || playerOSquares.includes(8) || winner !== 'None'} 
-            playerXSquares={playerXSquares} 
-            playerOSquares={playerOSquares} 
-            handleClick={handleClick} 
-            value={8} 
-          />
-        </div>
-      </div>
-    </div>
-  );
-};
+    )
+}
 
 const Game = () => {
-  return (
-    <div 
-      className="game"
-    >
-      <div 
-        className="game-board"
-      >
-        <Board />
-      </div>
-    </div>
-  );
-};
+    return (
+        <div className="game">
+            <div className="game-board">
+                <Board />
+            </div>
+        </div>
+    )
+}
 
-ReactDOM.render(
-  <Game />,
-  document.getElementById('root')
-);
+const root = createRoot(document.getElementById("root"))
+root.render(<Game />)
