@@ -1,5 +1,5 @@
 import React, { useState, createContext, useContext } from "react"
-import ReactDOM from "react-dom"
+import { createRoot } from "react-dom/client"
 
 const languages = ["JavaScript", "Python"]
 const LanguageContext = createContext({
@@ -8,25 +8,14 @@ const LanguageContext = createContext({
     setLanguage: () => {},
 })
 
-function App() {
-    const [language, setLanguage] = useState(languages[0])
-    return (
-        <LanguageContext.Provider value={{ languages, language, setLanguage }}>
-            <MainSection />
-        </LanguageContext.Provider>
-    )
-}
-
-function MainSection() {
+const MainSection = () => {
     const { languages, language, setLanguage } = useContext(LanguageContext)
     const currentIndex = languages.indexOf(language)
-    const toggleLanguage = () => {
-        if (currentIndex === languages.length - 1) {
-            setLanguage(languages[0])
-        } else {
-            setLanguage(languages[currentIndex + 1])
-        }
-    }
+    const toggleLanguage = () =>
+        currentIndex === languages.length - 1
+            ? setLanguage(languages[0])
+            : setLanguage(languages[currentIndex + 1])
+
     return (
         <div>
             <p id="favoriteLanguage">{`Favorite programming language: ${language}`}</p>
@@ -37,4 +26,14 @@ function MainSection() {
     )
 }
 
-ReactDOM.render(<App />, document.getElementById("root"))
+const App = () => {
+    const [language, setLanguage] = useState(languages[0])
+    return (
+        <LanguageContext.Provider value={{ languages, language, setLanguage }}>
+            <MainSection />
+        </LanguageContext.Provider>
+    )
+}
+
+const root = createRoot(document.getElementById("root"))
+root.render(<App />)
