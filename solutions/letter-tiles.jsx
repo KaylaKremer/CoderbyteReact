@@ -28,14 +28,14 @@ const style = {
 const Tile = ({ letter, outputArray, setOutputArray, tally, setTally }) => {
     const onClick = useCallback(() => {
         if (!tally[letter]) {
-            setTally({ ...tally, [`${letter}`]: 1 })
+            setTally({ ...tally, [letter]: 1 })
             setOutputArray([...outputArray, letter])
-        } else if (tally[`${letter}`] && tally[`${letter}`] === 2) {
-            setTally({ ...tally, [`${letter}`]: 0 })
+        } else if (tally[letter] && tally[letter] === 2) {
+            setTally({ ...tally, [letter]: 0 })
             const slicedArray = outputArray.slice(0, outputArray.length - 2)
             setOutputArray([...slicedArray, "_"])
         } else {
-            setTally({ ...tally, [`${letter}`]: tally[`${letter}`] + 1 })
+            setTally({ ...tally, [letter]: tally[letter] + 1 })
             setOutputArray([...outputArray, letter])
         }
     }, [letter, outputArray, setOutputArray, tally, setTally])
@@ -51,7 +51,7 @@ const Application = () => {
     const [outputArray, setOutputArray] = useState([])
     const [tally, setTally] = useState({})
     const alphabetArray = useMemo(() => {
-        let arr = []
+        const arr = []
         for (let i = 65; i <= 90; i++) {
             const char = String.fromCharCode(i)
             arr.push(char)
