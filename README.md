@@ -30,7 +30,7 @@ Slight editing of `README`.
     -   `live-paragraph.jsx`
     -   `quiz-builder.jsx`
     -   `weather-dashboard.jsx`
--   Updated `README``
+-   Updated `README`
 
 ## FAQ
 
